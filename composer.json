@@ -1,0 +1,28 @@
+{
+    "name": "/",
+    "description": "",
+    "keywords": [
+        "php",
+        "sdk",
+        "api"
+    ],
+    "license": "proprietary",
+    "require": {
+        "php": ">=5.5",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "~2.6",
+        "friendsofphp/php-cs-fixer": "~2.12"
+    },
+    "autoload": {
+        "psr-4": { "APIHub\\Client\\" : "lib/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "APIHub\\Client\\" : "test/" }
+    }
+}
