@@ -1,89 +1,97 @@
-<?php
-    
-    namespace APIHub\Client\Interceptor;
-    
-    use \GuzzleHttp\Middleware;
-    use \GuzzleHttp\Psr7\Stream;
-    use \Psr\Http\Message\RequestInterface as streamRequest;
-    use \Psr\Http\Message\ResponseInterface as streamResponse;
+<?php 
+namespace APIHub\Client\Interceptor;
 
-    use \APIHub\Client\Interceptor\KeyHandler;
-    use \APIHub\Client\Model\Errors;
-    use \APIHub\Client\Model\Error;
+use \GuzzleHttp\Middleware;
+use \GuzzleHttp\Psr7\Stream;
+use \Psr\Http\Message\RequestInterface as streamRequest;
+use \Psr\Http\Message\ResponseInterface as streamResponse;
 
-    class MiddlewareEvents
+use \APIHub\Client\Interceptor\KeyHandler;
+use \APIHub\Client\Interceptor\MyLogger;
+use \APIHub\Client\Model\Errors;
+use \APIHub\Client\Model\Error;
+
+class MiddlewareEvents
+{
+    
+    function __construct(\APIHub\Client\Interceptor\KeyHandler $signer)
     {
-        
-        function __construct(\APIHub\Client\Interceptor\KeyHandler $signer)
-        {
-            $this->signer = $signer;
-        }
+        $this->signer = $signer;
+        $this->logger = new MyLogger('MiddlewareEvents');
+    }
 
-        function add_signature_header($header){
-            return \GuzzleHttp\Middleware::mapRequest(function (streamRequest $request) use ($header){
-                try{
-                    $stream = $request->getBody();
-                    $payload = $stream->getContents();
-                    $stream->rewind();
-                    $signature = $this->signer->getSignatureFromPrivateKey($payload);
-                }catch (Exception $e) {
-                    throw new ApiException(
-                        "[{$e->getCode()}] {$e->getMessage()}",
-                        $e->getCode(),
-                        $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                        $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
-                    );
-                }
+    function add_signature_header($header){
+        return \GuzzleHttp\Middleware::mapRequest(function (streamRequest $request) use ($header){
+            try{
+                $this->logger->info("Begining signature...");
+                $stream = $request->getBody();
+                $payload = $stream->getContents();
+                $stream->rewind();
+                $signature = $this->signer->getSignatureFromPrivateKey($payload);
+            }catch (Exception $e) {
+                $this->logger->error('Exception when calling add_signature_header: '.$e->getMessage().PHP_EOL);
+                exit(1);
+            }
+            return $request->withHeader($header, $signature);
+        });
+    }
 
-                return $request->withHeader($header, $signature);
-            });
-        }
-
-        function verify_signature_header($header){
-            return \GuzzleHttp\Middleware::mapResponse(function (streamResponse $response) use ($header){
-                $is_verified = false;
-                try{
+    function verify_signature_header($header){
+        return \GuzzleHttp\Middleware::mapResponse(function (streamResponse $response) use ($header){
+            $verified = false;
+            $super_response = null;
+            try{
+                $this->logger->info("Begining verification...");
+                $status_code = $response->getStatusCode();
+                $this->logger->info("Status code: ".$status_code);
+                $stream = $response->getBody();
+                $payload = $stream->getContents();
+                $stream->rewind();
+                $this->logger->info("Payload to verify: ".$payload);
+                if($status_code == 200){
                     if(isset($response->getHeaders()[$header][0])){
-                        $stream = $response->getBody();
-                        $payload = $stream->getContents();
-                        $stream->rewind();
                         $signature = $response->getHeaders()[$header][0];                   
-                        $is_verified = $this->signer->getVerificationFromPublicKey($payload, $signature);
+                        $verified = $this->signer->getVerificationFromPublicKey($payload, $signature);
 
-                        if(!$is_verified){
-                            $new_stream = build_error("403", "No se pudo verificar x-signature de la respuesta");
-                            $new_response = $response->withBody($new_stream)->withStatus(403);
-                            
-                            return $new_response;
+                        if(!$verified){
+                            $this->logger->error("Could not verify the signature");
+                            $this->logger->warning("The response could be modified");
+                            //$new_stream = build_error("403", "No se pudo verificar x-signature de la respuesta");
+                            //$super_response = $response->withBody($new_stream)->withStatus(403);
                         }
+                        $super_response = $response;
                     }
                     else{
-                        return $response;
+                        $this->logger->error("Could not retrieve the signature");
+                        $new_stream = build_error("500", "No se recibió la firma");
+                        $super_response = $response->withBody($new_stream)->withStatus(403);
                     }
-                    
                 }
-                catch (Exception $e) {
-                    $new_response = build_error("500", "No se pudo verificar x-signature de la respuesta, no es válida");
-                    $new_response = $response->withBody($new_stream)->withStatus(500);
-                            
-                    return $new_response;
+                else{
+                    $super_response = $response;
                 }
+            }
+            catch (Exception $e) {
+                $this->logger->error('Exception when calling verify_signature_header: '.$e->getMessage().PHP_EOL);
+                $super_response = build_error("500", "Error inesperado");
+                $super_response = $response->withBody($new_stream)->withStatus(500);
+            }
 
-                return $response;
-            });
-        }
+            return $super_response;
+        });
     }
+}
 
-    function build_error($code, $message){
-        $error = new \APIHub\Client\Model\Error([
-            "code" => $code,
-            "message" => $message
-        ]);
-        $errors = new \APIHub\Client\Model\Errors(["errors" => [$error]]);
+function build_error($code, $message){
+    $error = new \APIHub\Client\Model\Error([
+        "code" => $code,
+        "message" => $message
+    ]);
+    $errors = new \APIHub\Client\Model\Errores(["errors" => [$error]]);
 
-        $resource = fopen('data://text/plain,' . $errors,'r');
-        $new_reponse = new \GuzzleHttp\Psr7\Stream($resource);
-        
-        return $new_reponse;
-    }
+    $resource = fopen('data://text/plain,' . $errors,'r');
+    $new_reponse = new \GuzzleHttp\Psr7\Stream($resource);
+    
+    return $new_reponse;
+}
 ?>

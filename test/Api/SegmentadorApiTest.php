@@ -9,7 +9,6 @@ use \GuzzleHttp\Client;
 use \GuzzleHttp\HandlerStack;
 
 use \APIHub\Client\ApiException;
-use \APIHub\Client\Configuration;
 use \APIHub\Client\Interceptor\KeyHandler;
 use \APIHub\Client\Interceptor\MiddlewareEvents;
 
@@ -29,7 +28,7 @@ class SegmentadorApiTest extends \PHPUnit_Framework_TestCase
         $handler = \GuzzleHttp\HandlerStack::create();
         $handler->push($events->add_signature_header('x-signature'));
         $handler->push($events->verify_signature_header('x-signature'));
-        
+
         $client = new \GuzzleHttp\Client([
             'handler' => $handler,
             'verify' => false
@@ -52,7 +51,7 @@ class SegmentadorApiTest extends \PHPUnit_Framework_TestCase
         $body->setDiasAtraso(0);
         $body->setSaldo(0);
         $body->setFechaApertura("DD/MM/YYYY");
-        
+
         try {
             $result = $this->apiInstance->vantage($x_api_key, $username, $password, $body);
             $this->signer->close();

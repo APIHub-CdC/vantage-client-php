@@ -1,15 +1,19 @@
 # VANT/AGE-client-php
 
+Es un modelo que segmenta a los clientes morosos en 6 calificaciones, de acuerdo al avance esperado de mora en los siguientes 30 días. Reduce costos de gestión y administración de cartera morosa al segmentar a la población.
+
 ## Requisitos
 
 PHP 7.1 ó superior
 
 ### Dependencias adicionales
-- Aegúrese de contar con las siguientes dependencias de PHP:
-    - php7.x-curl
-    - php7.x-mbstring
+- Se debe contar con las siguientes dependencias de PHP:
+    - ext-curl
+    - ext-mbstring
 - En caso de no ser así, para linux use los siguientes comandos
+
 ```sh
+#ejemplo con php en versión 7.3 para otra versión colocar php{version}-curl
 apt-get install php7.3-curl
 apt-get install php7.3-mbstring
 ```
@@ -19,17 +23,17 @@ apt-get install php7.3-mbstring
 
 Ejecutar: `composer install`
 
-## Antes de correr la prueba
- 
-### Generar llave y certificado
+## Guía de inicio
 
-- Asegúrese de tener su contenedor en formato PKCS12.
-- Si no tiene uno, puede ejecutar las instrucciones en **lib/Interceptor/key_pair_gen.sh** ó con los siguientes comandos.
-- **opcional**: Si desea cifrar su contenedor, coloque una contraseña en una variable de ambiente.
+### Paso 1. Generar llave y certificado
+
+- Se tiene que tener un contenedor en formato PKCS12.
+- En caso de no contar con uno, ejecutar las instrucciones contenidas en **lib/Interceptor/key_pair_gen.sh** ó con los siguientes comandos.
+- **opcional**: Para cifrar el contenedor, colocar una contraseña en una variable de ambiente.
 ```sh
 export KEY_PASSWORD=your_password
 ```
-- Definición de los nombres de archivos y alias.
+- Definir los nombres de archivos y alias.
 ```sh
 export PRIVATE_KEY_FILE=pri_key.pem
 export CERTIFICATE_FILE=certificate.pem
@@ -51,64 +55,93 @@ openssl req -new -x509 -days 365 \
 - Generar contenedor en formato PKCS12.
 ```sh
 # Genera el archivo pkcs12 a partir de la llave privada y el certificado.
-# Deberá empaquetar su llave privada y el certificado.
+# Deberá empaquetar la llave privada y el certificado.
 openssl pkcs12 -name ${ALIAS} \
     -export -out ${PKCS12_FILE} \
     -inkey ${PRIVATE_KEY_FILE} \
     -in ${CERTIFICATE_FILE} -password pass:${KEY_PASSWORD}
 ```
 
-### Para cargar el certificado (dentro del portal de desarrolladores)
- 
- 1. Haga clic en la sección "**Mis aplicaciones**", y seleccione su aplicación.
- 2. Vaya a la pestaña de "**Certificados**".
- 3. Posteriormente deberá hacer clic en el botón debajo del texto "**Tu certificado**", y seleccionar el certificado previamente creado.
- 4. Finalmente dar clic en el botón "**Cargar**", como se muestra en la siguiente imágen.
- 
- ![upload certificate](upload_cert.png)
+### Paso 2. Cargar el certificado dentro del portal de desarrolladores
 
-### Para descargar el certificado de círculo de crédito (dentro del portal de desarrolladores)
- 1. Haga clic en la sección "**Mis aplicaciones**", y seleccione su aplicación.
- 2. Vaya a la pestaña de "**Certificados**".
- 3. Finalmente dar clic en el botón "**Descargar**", como se muestra en la siguiente imágen.
+ 1. Después de iniciar sesión, hacer clic en la sección "**Mis aplicaciones**".
+ 2. Seleccionar la aplicación.
+ 3. Ir a la pestaña de "**Certificados para @tuApp**".
+ <p align="center">
+  <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/applications.png">
+ </p>
+ 4. Al abrir una ventana emergente se deberá cargar el certificado previamente creado y darle clic al botón "**Cargar**", como se muestra en la siguiente imagen.
+ <p>
+  <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/upload_cert.png" width="268">
+ </p>
 
- ![download certificate](download_cert.png)
+### Paso 3. Descargar el certificado de Círculo de Crédito dentro del portal de desarrolladores
+ 1. Después de iniciar sesión, hacer clic en la sección "**Mis aplicaciones**".
+ 2. Seleccionar la aplicación.
+ 3. Ir a la pestaña de "**Certificados para @tuApp**", y esperar a que cargue una ventana emergente.
+ <p align="center">
+  <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/applications.png">
+ </p>
+ 4. Al abrir una ventana emergente se deberá dar clic al botón "**Descargar**" como se muestra en la siguiente imagen; el certificado comenzará a descargarse.
+ <p>
+  <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/download_cert.png" width="268">
+ </p>
 
  > Es importante que este contenedor sea almacenado en la siguiente ruta:
  > **/path/to/repository/lib/Interceptor/keypair.p12**
- > Así mismo el certificado proporcionado por círculo de crédito en la siguiente ruta: 
+ >
+ > Así mismo el certificado proporcionado por círculo de crédito en la siguiente ruta:
  > **/path/to/repository/lib/Interceptor/cdc_cert.pem**
 
-- En caso de que no desee almacenarlo así, deberá especificar el path donde se encuentra el contenedor y el certificado. Vea el siguiente ejemplo:
- 
+- En caso de que no se almacene así, se debe especificar la ruta donde se encuentra el contenedor y el certificado. Ver el siguiente ejemplo:
+
 ```php
-/** 
+/**
 * Esto es parte del setUp() de las pruebas unitarias.
 */
 $password = getenv('KEY_PASSWORD');
 $this->signer = new \APIHub\Client\Interceptor\KeyHandler(
-     "/example/route/keypair.p12",
-     "/example/route/cdc_cert.pem",
-     $password
- );
+    "/example/route/keypair.p12",
+    "/example/route/cdc_cert.pem",
+    $password
+);
 ```
- > **NOTA:** Sólamente en caso de que haya cifrado el contenedor, deberá colocar su contraseña en una variable de ambiente e indicar el nombre de la misma, como se indicó anteriormente.
+ > **NOTA:** Sólamente en caso de que el contenedor haya cifrado, se debe colocar la contraseña en una variable de ambiente e indicar el nombre de la misma, como se ve en la imagen anterior.
 
-## Pruebas unitarias
+### Paso 4. Modificar URL
 
-Para ejecutar las pruebas unitarias:
+ Modificar la URL de la petición en ***lib/Configuration.php*** en la línea 19, como se muestra en el siguiente fragmento de código:
 
-```sh
-./vendor/bin/phpunit
-```
+ ```php
+ protected $host = 'the_url';
+ ```
 
-## Guía de inicio rápido.
+### Paso 5. Capturar los datos de la petición
 
-Deberá llenar los datos que desea enviar de la siguiente manera.
+Es importante contar con el setUp() que se encargará de firmar y verificar la petición.
 
 ```php
 <?php
-/** 
+public function setUp()
+{
+    $password = getenv('KEY_PASSWORD');
+    $this->signer = new \APIHub\Client\Interceptor\KeyHandler(null, null, $password);
+    $events = new \APIHub\Client\Interceptor\MiddlewareEvents($this->signer);
+    $handler = \GuzzleHttp\HandlerStack::create();
+    $handler->push($events->add_signature_header('x-signature'));
+    $handler->push($events->verify_signature_header('x-signature'));
+
+    $client = new \GuzzleHttp\Client([
+        'handler' => $handler,
+        'verify' => false
+    ]);
+    $this->apiInstance = new \APIHub\Client\Api\SegmentadorApi($client);
+}    
+```
+```php
+
+<?php
+/**
 * Este es el método que se será ejecutado en la prueba ubicado en path/to/repository/test/Api/SegmentadorApiTest.php
 */
 public function testVantage()
@@ -126,7 +159,7 @@ public function testVantage()
     $body->setDiasAtraso(0);
     $body->setSaldo(0);
     $body->setFechaApertura("DD/MM/YYYY");
-    
+
     try {
         $result = $this->apiInstance->vantage($x_api_key, $username, $password, $body);
         $this->signer->close();
@@ -137,25 +170,12 @@ public function testVantage()
 }
 ?>
 ```
-Así mismo es importante contar con el setUp() que se encargará de firmar y verificar la petición.
+## Pruebas unitarias
 
-```php
-<?php
-public function setUp()
-{
-    $password = getenv('KEY_PASSWORD');
-    $this->signer = new \APIHub\Client\Interceptor\KeyHandler(null, null, $password);
-    $events = new \APIHub\Client\Interceptor\MiddlewareEvents($this->signer);
-    $handler = \GuzzleHttp\HandlerStack::create();
-    $handler->push($events->add_signature_header('x-signature'));
-    $handler->push($events->verify_signature_header('x-signature'));
-    
-    $client = new \GuzzleHttp\Client([
-        'handler' => $handler,
-        'verify' => false
-    ]);
-    $this->apiInstance = new \APIHub\Client\Api\SegmentadorApi($client);
-}    
+Para ejecutar las pruebas unitarias:
+
+```sh
+./vendor/bin/phpunit
 ```
 
 [1]: https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos
