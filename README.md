@@ -71,7 +71,7 @@ openssl pkcs12 -name ${ALIAS} \
   <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/applications.png">
  </p>
  4. Al abrir una ventana emergente se deberá cargar el certificado previamente creado y darle clic al botón "**Cargar**", como se muestra en la siguiente imagen.
- <p>
+ <p align="center">
   <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/upload_cert.png" width="268">
  </p>
 
@@ -83,7 +83,7 @@ openssl pkcs12 -name ${ALIAS} \
   <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/applications.png">
  </p>
  4. Al abrir una ventana emergente se deberá dar clic al botón "**Descargar**" como se muestra en la siguiente imagen; el certificado comenzará a descargarse.
- <p>
+ <p align="center">
   <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/download_cert.png" width="268">
  </p>
 
@@ -132,8 +132,7 @@ public function setUp()
     $handler->push($events->verify_signature_header('x-signature'));
 
     $client = new \GuzzleHttp\Client([
-        'handler' => $handler,
-        'verify' => false
+        'handler' => $handler
     ]);
     $this->apiInstance = new \APIHub\Client\Api\SegmentadorApi($client);
 }    

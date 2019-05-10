@@ -30,8 +30,7 @@ class SegmentadorApiTest extends \PHPUnit_Framework_TestCase
         $handler->push($events->verify_signature_header('x-signature'));
 
         $client = new \GuzzleHttp\Client([
-            'handler' => $handler,
-            'verify' => false
+            'handler' => $handler
         ]);
         $this->apiInstance = new \APIHub\Client\Api\SegmentadorApi($client);
     }
