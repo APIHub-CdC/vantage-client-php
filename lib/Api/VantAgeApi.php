@@ -8,10 +8,10 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use Vantage\Client\ApiException;
-use Vantage\Client\Configuration;
-use Vantage\Client\HeaderSelector;
-use Vantage\Client\ObjectSerializer;
+use Vantage\MX\Client\ApiException;
+use Vantage\MX\Client\Configuration;
+use Vantage\MX\Client\HeaderSelector;
+use Vantage\MX\Client\ObjectSerializer;
 
 class VantAgeApi
 {

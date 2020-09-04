@@ -4,7 +4,7 @@ namespace Vantage\MX\Client;
 
 use \Vantage\MX\Client\Configuration;
 use \Vantage\MX\Client\ApiException as VantageException;
-use \Vantage\MX\Client\Api\Vantage\MXApi;
+use \Vantage\MX\Client\Api\VantAgeApi;
 use \Vantage\MX\Client\Model\AportantesPeticion;
 use \Vantage\MX\Client\Model\NoAportantesPeticion;
 use \Vantage\MX\Client\Model\CatalogoContrato;
