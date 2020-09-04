@@ -5,24 +5,24 @@ namespace Vantage\Client\Model;
 use \ArrayAccess;
 use \Vantage\Client\ObjectSerializer;
 
-class Respuesta implements ModelInterface, ArrayAccess
+class AportantesPeticion implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'Respuesta';
+    protected static $apihubModelName = 'AportantesPeticion';
     
     protected static $apihubTypes = [
         'folio' => 'string',
         'fecha_proceso' => 'string',
         'numero_cuenta' => 'string',
-        'calificacion' => 'string'
+        'dias_atraso' => 'int'
     ];
     
     protected static $apihubFormats = [
         'folio' => null,
         'fecha_proceso' => null,
         'numero_cuenta' => null,
-        'calificacion' => null
+        'dias_atraso' => 'int32'
     ];
     
     public static function apihubTypes()
@@ -39,21 +39,21 @@ class Respuesta implements ModelInterface, ArrayAccess
         'folio' => 'folio',
         'fecha_proceso' => 'fechaProceso',
         'numero_cuenta' => 'numeroCuenta',
-        'calificacion' => 'calificacion'
+        'dias_atraso' => 'diasAtraso'
     ];
     
     protected static $setters = [
         'folio' => 'setFolio',
         'fecha_proceso' => 'setFechaProceso',
         'numero_cuenta' => 'setNumeroCuenta',
-        'calificacion' => 'setCalificacion'
+        'dias_atraso' => 'setDiasAtraso'
     ];
     
     protected static $getters = [
         'folio' => 'getFolio',
         'fecha_proceso' => 'getFechaProceso',
         'numero_cuenta' => 'getNumeroCuenta',
-        'calificacion' => 'getCalificacion'
+        'dias_atraso' => 'getDiasAtraso'
     ];
     
     public static function attributeMap()
@@ -85,12 +85,33 @@ class Respuesta implements ModelInterface, ArrayAccess
         $this->container['folio'] = isset($data['folio']) ? $data['folio'] : null;
         $this->container['fecha_proceso'] = isset($data['fecha_proceso']) ? $data['fecha_proceso'] : null;
         $this->container['numero_cuenta'] = isset($data['numero_cuenta']) ? $data['numero_cuenta'] : null;
-        $this->container['calificacion'] = isset($data['calificacion']) ? $data['calificacion'] : null;
+        $this->container['dias_atraso'] = isset($data['dias_atraso']) ? $data['dias_atraso'] : null;
     }
     
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+        if ($this->container['folio'] === null) {
+            $invalidProperties[] = "'folio' can't be null";
+        }
+        if ((mb_strlen($this->container['folio']) > 50)) {
+            $invalidProperties[] = "invalid value for 'folio', the character length must be smaller than or equal to 50.";
+        }
+        if ($this->container['fecha_proceso'] === null) {
+            $invalidProperties[] = "'fecha_proceso' can't be null";
+        }
+        if ((mb_strlen($this->container['fecha_proceso']) > 10)) {
+            $invalidProperties[] = "invalid value for 'fecha_proceso', the character length must be smaller than or equal to 10.";
+        }
+        if ($this->container['numero_cuenta'] === null) {
+            $invalidProperties[] = "'numero_cuenta' can't be null";
+        }
+        if ((mb_strlen($this->container['numero_cuenta']) > 50)) {
+            $invalidProperties[] = "invalid value for 'numero_cuenta', the character length must be smaller than or equal to 50.";
+        }
+        if ($this->container['dias_atraso'] === null) {
+            $invalidProperties[] = "'dias_atraso' can't be null";
+        }
         return $invalidProperties;
     }
     
@@ -106,6 +127,9 @@ class Respuesta implements ModelInterface, ArrayAccess
     
     public function setFolio($folio)
     {
+        if ((mb_strlen($folio) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $folio when calling AportantesPeticion., must be smaller than or equal to 50.');
+        }
         $this->container['folio'] = $folio;
         return $this;
     }
@@ -117,6 +141,9 @@ class Respuesta implements ModelInterface, ArrayAccess
     
     public function setFechaProceso($fecha_proceso)
     {
+        if ((mb_strlen($fecha_proceso) > 10)) {
+            throw new \InvalidArgumentException('invalid length for $fecha_proceso when calling AportantesPeticion., must be smaller than or equal to 10.');
+        }
         $this->container['fecha_proceso'] = $fecha_proceso;
         return $this;
     }
@@ -128,18 +155,21 @@ class Respuesta implements ModelInterface, ArrayAccess
     
     public function setNumeroCuenta($numero_cuenta)
     {
+        if ((mb_strlen($numero_cuenta) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $numero_cuenta when calling AportantesPeticion., must be smaller than or equal to 50.');
+        }
         $this->container['numero_cuenta'] = $numero_cuenta;
         return $this;
     }
     
-    public function getCalificacion()
+    public function getDiasAtraso()
     {
-        return $this->container['calificacion'];
+        return $this->container['dias_atraso'];
     }
     
-    public function setCalificacion($calificacion)
+    public function setDiasAtraso($dias_atraso)
     {
-        $this->container['calificacion'] = $calificacion;
+        $this->container['dias_atraso'] = $dias_atraso;
         return $this;
     }
     
