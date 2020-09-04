@@ -16,7 +16,7 @@ class Configuration
     
     protected $password = '';
     
-    protected $host = 'https://services.circulodecredito.com.mx/v2/vantage';
+    protected $host = '';
     
     protected $userAgent = 'Vantage-Codegen/1.0.0/php';
     
