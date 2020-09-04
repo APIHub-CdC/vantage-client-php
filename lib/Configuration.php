@@ -1,6 +1,6 @@
 <?php
 
-namespace Vantage\Client;
+namespace Vantage\MX\Client;
 
 class Configuration
 {

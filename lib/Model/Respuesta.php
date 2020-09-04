@@ -1,9 +1,9 @@
 <?php
 
-namespace Vantage\Client\Model;
+namespace Vantage\MX\Client\Model;
 
 use \ArrayAccess;
-use \Vantage\Client\ObjectSerializer;
+use \Vantage\MX\Client\ObjectSerializer;
 
 class Respuesta implements ModelInterface, ArrayAccess
 {

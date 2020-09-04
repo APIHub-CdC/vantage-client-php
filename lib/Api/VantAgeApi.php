@@ -1,6 +1,6 @@
 <?php
 
-namespace Vantage\Client\Api;
+namespace Vantage\MX\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -45,7 +45,7 @@ class VantAgeApi
     
     public function getVantageAportantesWithHttpInfo($x_api_key, $username, $password, $body)
     {
-        $returnType = '\Vantage\Client\Model\Respuesta';
+        $returnType = '\Vantage\MX\Client\Model\Respuesta';
         $request = $this->getVantageAportantesRequest($x_api_key, $username, $password, $body);
         try {
             $options = $this->createHttpClientOption();
@@ -91,7 +91,7 @@ class VantAgeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Respuesta',
+                        '\Vantage\MX\Client\Model\Respuesta',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -99,7 +99,7 @@ class VantAgeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -107,7 +107,7 @@ class VantAgeApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -115,7 +115,7 @@ class VantAgeApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -123,7 +123,7 @@ class VantAgeApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -131,7 +131,7 @@ class VantAgeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -139,7 +139,7 @@ class VantAgeApi
                 case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -161,7 +161,7 @@ class VantAgeApi
     
     public function getVantageAportantesAsyncWithHttpInfo($x_api_key, $username, $password, $body)
     {
-        $returnType = '\Vantage\Client\Model\Respuesta';
+        $returnType = '\Vantage\MX\Client\Model\Respuesta';
         $request = $this->getVantageAportantesRequest($x_api_key, $username, $password, $body);
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -304,7 +304,7 @@ class VantAgeApi
     
     public function getVantageNoAportantesWithHttpInfo($x_api_key, $username, $password, $body)
     {
-        $returnType = '\Vantage\Client\Model\Respuesta';
+        $returnType = '\Vantage\MX\Client\Model\Respuesta';
         $request = $this->getVantageNoAportantesRequest($x_api_key, $username, $password, $body);
         try {
             $options = $this->createHttpClientOption();
@@ -350,7 +350,7 @@ class VantAgeApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Respuesta',
+                        '\Vantage\MX\Client\Model\Respuesta',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -358,7 +358,7 @@ class VantAgeApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -366,7 +366,7 @@ class VantAgeApi
                 case 401:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -374,7 +374,7 @@ class VantAgeApi
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -382,7 +382,7 @@ class VantAgeApi
                 case 404:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -390,7 +390,7 @@ class VantAgeApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -398,7 +398,7 @@ class VantAgeApi
                 case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Vantage\Client\Model\Errores',
+                        '\Vantage\MX\Client\Model\Errores',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -420,7 +420,7 @@ class VantAgeApi
     
     public function getVantageNoAportantesAsyncWithHttpInfo($x_api_key, $username, $password, $body)
     {
-        $returnType = '\Vantage\Client\Model\Respuesta';
+        $returnType = '\Vantage\MX\Client\Model\Respuesta';
         $request = $this->getVantageNoAportantesRequest($x_api_key, $username, $password, $body);
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())

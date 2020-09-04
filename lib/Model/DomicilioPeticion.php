@@ -1,9 +1,9 @@
 <?php
 
-namespace Vantage\Client\Model;
+namespace Vantage\MX\Client\Model;
 
 use \ArrayAccess;
-use \Vantage\Client\ObjectSerializer;
+use \Vantage\MX\Client\ObjectSerializer;
 
 class DomicilioPeticion implements ModelInterface, ArrayAccess
 {
@@ -16,12 +16,12 @@ class DomicilioPeticion implements ModelInterface, ArrayAccess
         'colonia_poblacion' => 'string',
         'delegacion_municipio' => 'string',
         'ciudad' => 'string',
-        'estado' => '\Vantage\Client\Model\CatalogoEstados',
+        'estado' => '\Vantage\MX\Client\Model\CatalogoEstados',
         'cp' => 'string',
         'fecha_residencia' => 'string',
         'numero_telefono' => 'string',
-        'tipo_domicilio' => '\Vantage\Client\Model\CatalogoTipoDomicilio',
-        'tipo_asentamiento' => '\Vantage\Client\Model\CatalogoTipoAsentamiento'
+        'tipo_domicilio' => '\Vantage\MX\Client\Model\CatalogoTipoDomicilio',
+        'tipo_asentamiento' => '\Vantage\MX\Client\Model\CatalogoTipoAsentamiento'
     ];
     
     protected static $apihubFormats = [

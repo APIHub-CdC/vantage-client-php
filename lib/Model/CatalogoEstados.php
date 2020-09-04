@@ -1,7 +1,7 @@
 <?php
 
-namespace Vantage\Client\Model;
-use \Vantage\Client\ObjectSerializer;
+namespace Vantage\MX\Client\Model;
+use \Vantage\MX\Client\ObjectSerializer;
 
 class CatalogoEstados
 {

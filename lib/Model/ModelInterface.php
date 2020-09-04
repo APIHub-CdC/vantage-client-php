@@ -1,6 +1,6 @@
 <?php
 
-namespace Vantage\Client\Model;
+namespace Vantage\MX\Client\Model;
 
 interface ModelInterface
 {

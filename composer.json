@@ -23,9 +23,9 @@
         "friendsofphp/php-cs-fixer": "~2.12"
     },
     "autoload": {
-        "psr-4": { "Vantage\\Client\\" : "lib/" }
+        "psr-4": { "Vantage\\MX\\Client\\" : "lib/" }
     },
     "autoload-dev": {
-        "psr-4": { "Vantage\\Client\\" : "test/" }
+        "psr-4": { "Vantage\\MX\\Client\\" : "test/" }
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace Vantage\Client;
+namespace Vantage\MX\Client;
 
-use \Vantage\Client\Configuration;
-use \Vantage\Client\ApiException as VantageException;
-use \Vantage\Client\Api\VantAgeApi;
-use \Vantage\Client\Model\AportantesPeticion;
-use \Vantage\Client\Model\NoAportantesPeticion;
-use \Vantage\Client\Model\CatalogoContrato;
-use \Vantage\Client\Model\CatalogoFrecuenciaPago;
-use \Vantage\Client\Model\PersonaPeticion;
+use \Vantage\MX\Client\Configuration;
+use \Vantage\MX\Client\ApiException as VantageException;
+use \Vantage\MX\Client\Api\Vantage\MXApi;
+use \Vantage\MX\Client\Model\AportantesPeticion;
+use \Vantage\MX\Client\Model\NoAportantesPeticion;
+use \Vantage\MX\Client\Model\CatalogoContrato;
+use \Vantage\MX\Client\Model\CatalogoFrecuenciaPago;
+use \Vantage\MX\Client\Model\PersonaPeticion;
 
 use Signer\Manager\ApiException;
 use Signer\Manager\Interceptor\MiddlewareEvents;
