@@ -2,23 +2,16 @@ CONDICIONES DE USO, REPRODUCCIÓN Y DISTRIBUCIÓN
 
 1. Definiciones.
 "Licencia" hace referencia a las condiciones de uso, reproducción y distribución, según la definición establecida en las Secciones 1 a 9 de este documento.
-
 "Licenciador" hace referencia al propietario de los derechos de autor, o la entidad autorizada por el mismo, que otorga la licencia.
-
 "Entidad legal" hace referencia a la unión de la entidad actuante y todas las demás entidades que la controlan, son controladas por ella o están sujetas a un control común con dicha entidad. Para los fines de esta definición, el "control" es (i) la potestad directa o indirecta para dirigir dicha entidad, ya sea mediante contrato o de otro modo; o (ii) la titularidad de al menos un cincuenta por ciento (50 %) de las acciones, o (iii) la propiedad efectiva de dicha entidad.
-
 "Usted" (o "Su") hace referencia a una persona o entidad legal que ejerza las autorizaciones otorgadas por esta Licencia.
 
 La forma del "Código" hace referencia a la forma preferente de realizar modificaciones, como por ejemplo, el código fuente del software, la fuente de la documentación o los archivos de configuración.
 
 La forma del "Objeto" hace referencia a cualquier forma resultante de la transformación mecánica o traducción de una forma de Código, como por ejemplo, código de objeto compilado, documentación generada y conversiones a otros tipos de medios.
-
 "Obra" hace referencia a la obra de autor, ya sea en forma de Código o de Objeto, disponible en virtud de esta Licencia, según la indicación de copyright incluida o incorporada a la obra (se facilita un ejemplo en el apéndice más adelante).
-
 "Obras derivativas" hace referencia a todas las obras, tanto en forma de Código como de Objeto, que estén basadas en (o derivadas de) la Obra y en las que el conjunto de las revisiones de modificación, anotaciones, elaboración y otros cambios representan, en total, una obra de autoría original. Para los fines de esta Licencia, las Obras Derivativas no incluirán las obras que sea posible separar o que compartan un simple vínculo (o unión por nombre) con las interfaces de la Obra y de las Obras Derivativas de la misma.
-
 "Contribución" hace referencia a cualquier obra de autor, incluida la versión original de la Obra y todas las modificaciones y adiciones a dicha Obra u Obras Derivativas de la misma, que se envíen deliberadamente al Licenciador para su inclusión en la Obra por el titular de los derechos de autor o por una persona o entidad legal autorizada para ello en representación del titular de los derechos. Para los fines de esta definición, enviar hace referencia a cualquier forma de comunicación electrónica, verbal o escrita efectuada por el Licenciador o sus representantes, como por ejemplo, la comunicación en listas de correo electrónico, sistemas de control de código fuente y sistemas de seguimiento de problemas gestionados por o en representación del Licenciador con el fin de comentar y mejorar la Obra, pero con exclusión de las comunicaciones descritas claramente o designadas por escrito por el titular de los derechos como "No contribución."
-
 "Contribuyente" hace referencia al Licenciador o cualquier persona o Entidad Legal en cuyo nombre haya recibido el Licenciador una Contribución que se incorpore posteriormente a la Obra.
 
 2. Concesión de licencia de derechos de autor.
