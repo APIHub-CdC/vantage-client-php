@@ -5,20 +5,18 @@ namespace Vantage\MX\Client\Model;
 use \ArrayAccess;
 use \Vantage\MX\Client\ObjectSerializer;
 
-class Error implements ModelInterface, ArrayAccess
+class CatalogoNacionalidad implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'Error';
+    protected static $apihubModelName = 'CatalogoNacionalidad';
     
     protected static $apihubTypes = [
-        'codigo' => 'string',
-        'mensaje' => 'string'
+        
     ];
     
     protected static $apihubFormats = [
-        'codigo' => null,
-        'mensaje' => null
+        
     ];
     
     public static function apihubTypes()
@@ -32,18 +30,15 @@ class Error implements ModelInterface, ArrayAccess
     }
     
     protected static $attributeMap = [
-        'codigo' => 'codigo',
-        'mensaje' => 'mensaje'
+        
     ];
     
     protected static $setters = [
-        'codigo' => 'setCodigo',
-        'mensaje' => 'setMensaje'
+        
     ];
     
     protected static $getters = [
-        'codigo' => 'getCodigo',
-        'mensaje' => 'getMensaje'
+        
     ];
     
     public static function attributeMap()
@@ -72,8 +67,6 @@ class Error implements ModelInterface, ArrayAccess
     
     public function __construct(array $data = null)
     {
-        $this->container['codigo'] = isset($data['codigo']) ? $data['codigo'] : null;
-        $this->container['mensaje'] = isset($data['mensaje']) ? $data['mensaje'] : null;
     }
     
     public function listInvalidProperties()
@@ -85,28 +78,6 @@ class Error implements ModelInterface, ArrayAccess
     public function valid()
     {
         return count($this->listInvalidProperties()) === 0;
-    }
-    
-    public function getCodigo()
-    {
-        return $this->container['codigo'];
-    }
-    
-    public function setCodigo($codigo)
-    {
-        $this->container['codigo'] = $codigo;
-        return $this;
-    }
-    
-    public function getMensaje()
-    {
-        return $this->container['mensaje'];
-    }
-    
-    public function setMensaje($mensaje)
-    {
-        $this->container['mensaje'] = $mensaje;
-        return $this;
     }
     
     public function offsetExists($offset)

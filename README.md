@@ -125,18 +125,26 @@ Es importante contar con el setUp() que se encargará de firmar y verificar la p
 <?php
 public function setUp()
 {
-    $password = getenv('KEY_PASSWORD');
-    $this->signer = new \APIHub\Client\Interceptor\KeyHandler(null, null, $password);
-    $events = new \APIHub\Client\Interceptor\MiddlewareEvents($this->signer);
-    $handler = \GuzzleHttp\HandlerStack::create();
-    $handler->push($events->add_signature_header('x-signature'));
-    $handler->push($events->verify_signature_header('x-signature'));
+  $password = getenv('KEY_PASSWORD');
+  $this->keypair = 'path/to/keypair.p12';
+  $this->cert = 'path/to/certificate.pem';
+  $this->url = 'this_url';
 
-    $client = new \GuzzleHttp\Client([
-        'handler' => $handler
-    ]);
-    $this->apiInstance = new \APIHub\Client\Api\SegmentadorApi($client);
-}    
+  $this->signer = new KeyHandler($this->keypair, $this->cert, $password);
+  $events = new MiddlewareEvents($this->signer);
+  $handler = handlerStack::create();
+  $handler->push($events->add_signature_header('x-signature'));
+  $handler->push($events->verify_signature_header('x-signature'));
+
+  $client = new Client(['handler' => $handler]);
+  $config = new Configuration();
+  $config->setHost($this->url);
+  
+  $this->apiInstance = new VantAgeApi($client, $config);
+  $this->x_api_key = "your_api_key";
+  $this->username = "your_username";
+  $this->password = "your_password";
+}
 ```
 ```php
 
@@ -144,29 +152,45 @@ public function setUp()
 /**
 * Este es el método que se será ejecutado en la prueba ubicado en path/to/repository/test/Api/SegmentadorApiTest.php
 */
-public function testVantage()
-{
-    $x_api_key = "your_api_key";
-    $username = "your_username";
-    $password = "your_password";
-    $body = new \APIHub\Client\Model\Peticion();
-    $body->setFolio(0);
-    $body->setNumeroCuenta("XXXXXXXX");
-    $body->setTipoContrato("XX");
-    $body->setTipoCuenta("X");
-    $body->setTipoFrecuencia("XX");
-    $body->setPeriodosVencidos("0");
-    $body->setDiasAtraso(0);
-    $body->setSaldo(0);
-    $body->setFechaApertura("DD/MM/YYYY");
+public function testGetVantageAportantes(){
+  try {
+    $request = new AportantesPeticion();
+    $request->setFolio("123456");
+    $request->setFechaProceso("yyyy-MM-dd");
+    $request->setNumeroCuenta("00000000");
+    $request->setDiasAtraso(10);
+    $result = $this->apiInstance->getVantageAportantes(
+        $this->x_api_key, $this->username, $this->password, $request);
+    print_r($result);
+  } catch (VantageException | Exception $e) {
+      echo 'Exception when calling testGetVantageAportantes->getVantageAportantes: ', $e->getMessage(), PHP_EOL;
+  }
+}
 
-    try {
-        $result = $this->apiInstance->vantage($x_api_key, $username, $password, $body);
-        $this->signer->close();
-        print_r($result);
-    } catch (Exception $e) {
-        echo 'Exception when calling SegmentadorApi->vantage: ', $e->getMessage(), PHP_EOL;
-    }
+public function testGetVantageNoAportantes(){
+  try {
+    $tipoContrato = new CatalogoContrato();
+    $catalogoPago = new CatalogoFrecuenciaPago();
+    $persona = new PersonaPeticion();
+    $request = new NoAportantesPeticion();
+
+    $persona->setPrimerNombre("NOMBRE");
+    $persona->setApellidoPaterno("PATERNO");
+    $persona->setApellidoMaterno("MATERNO");
+    $persona->setFechaNacimiento("1986-06-27");
+    $request->setFolio("123456");
+    $request->setFechaProceso("yyyy-MM-dd");
+    $request->setTipoContrato($tipoContrato::AA);
+    $request->setFrecuenciaPago($catalogoPago::N);
+    $request->setDiasAtraso(10);
+    $request->setPersona($persona);
+
+    $result = $this->apiInstance->getVantageAportantes(
+        $this->x_api_key, $this->username, $this->password, $request);
+    print_r($result);
+  } catch (VantageException | Exception $e) {
+      echo 'Exception when calling testGetVantageNoAportantes->getVantageAportantes: ', $e->getMessage(), PHP_EOL;
+  }
 }
 ?>
 ```
