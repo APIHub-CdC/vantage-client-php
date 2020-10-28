@@ -9,24 +9,24 @@ class CatalogoNacionalidad implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'CatalogoNacionalidad';
+    protected static $VantageModelName = 'CatalogoNacionalidad';
     
-    protected static $apihubTypes = [
+    protected static $VantageTypes = [
         
     ];
     
-    protected static $apihubFormats = [
+    protected static $VantageFormats = [
         
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
@@ -58,7 +58,7 @@ class CatalogoNacionalidad implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     

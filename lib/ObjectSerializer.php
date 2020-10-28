@@ -23,19 +23,19 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
-            $formats = $data::apihubFormats();
-            foreach ($data::apihubTypes() as $property => $apihubType) {
+            $formats = $data::VantageFormats();
+            foreach ($data::VantageTypes() as $property => $VantageType) {
                 $getter = $data::getters()[$property];
                 $value = $data->$getter();
                 if ($value !== null
-                    && !in_array($apihubType, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)
-                    && method_exists($apihubType, 'getAllowableEnumValues')
-                    && !in_array($value, $apihubType::getAllowableEnumValues(), true)) {
-                    $imploded = implode("', '", $apihubType::getAllowableEnumValues());
-                    throw new \InvalidArgumentException("Invalid value for enum '$apihubType', must be one of: '$imploded'");
+                    && !in_array($VantageType, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)
+                    && method_exists($VantageType, 'getAllowableEnumValues')
+                    && !in_array($value, $VantageType::getAllowableEnumValues(), true)) {
+                    $imploded = implode("', '", $VantageType::getAllowableEnumValues());
+                    throw new \InvalidArgumentException("Invalid value for enum '$VantageType', must be one of: '$imploded'");
                 }
                 if ($value !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $apihubType, $formats[$property]);
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $VantageType, $formats[$property]);
                 }
             }
             return (object)$values;
@@ -171,7 +171,7 @@ class ObjectSerializer
                 }
             }
             $instance = new $class();
-            foreach ($instance::apihubTypes() as $property => $type) {
+            foreach ($instance::VantageTypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
                 if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
                     continue;

@@ -9,26 +9,26 @@ class Error implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'Error';
+    protected static $VantageModelName = 'Error';
     
-    protected static $apihubTypes = [
+    protected static $VantageTypes = [
         'codigo' => 'string',
         'mensaje' => 'string'
     ];
     
-    protected static $apihubFormats = [
+    protected static $VantageFormats = [
         'codigo' => null,
         'mensaje' => null
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
@@ -63,7 +63,7 @@ class Error implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     
