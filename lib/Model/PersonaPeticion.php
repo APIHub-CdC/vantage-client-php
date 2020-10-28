@@ -9,9 +9,9 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'PersonaPeticion';
+    protected static $VantageModelName = 'PersonaPeticion';
     
-    protected static $apihubTypes = [
+    protected static $VantageTypes = [
         'apellido_paterno' => 'string',
         'apellido_materno' => 'string',
         'apellido_adicional' => 'string',
@@ -30,13 +30,13 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         'domicilio' => '\Vantage\MX\Client\Model\DomicilioPeticion'
     ];
     
-    protected static $apihubFormats = [
+    protected static $VantageFormats = [
         'apellido_paterno' => null,
         'apellido_materno' => null,
         'apellido_adicional' => null,
         'primer_nombre' => null,
         'segundo_nombre' => null,
-        'fecha_nacimiento' => null,
+        'fecha_nacimiento' => 'yyyy-MM-dd',
         'rfc' => null,
         'curp' => null,
         'nacionalidad' => null,
@@ -49,14 +49,14 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         'domicilio' => null
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
@@ -133,7 +133,7 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     
@@ -169,11 +169,17 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($this->container['apellido_paterno']) > 30)) {
             $invalidProperties[] = "invalid value for 'apellido_paterno', the character length must be smaller than or equal to 30.";
         }
+        if ((mb_strlen($this->container['apellido_paterno']) < 1)) {
+            $invalidProperties[] = "invalid value for 'apellido_paterno', the character length must be bigger than or equal to 1.";
+        }
         if ($this->container['apellido_materno'] === null) {
             $invalidProperties[] = "'apellido_materno' can't be null";
         }
         if ((mb_strlen($this->container['apellido_materno']) > 30)) {
             $invalidProperties[] = "invalid value for 'apellido_materno', the character length must be smaller than or equal to 30.";
+        }
+        if ((mb_strlen($this->container['apellido_materno']) < 1)) {
+            $invalidProperties[] = "invalid value for 'apellido_materno', the character length must be bigger than or equal to 1.";
         }
         if (!is_null($this->container['apellido_adicional']) && (mb_strlen($this->container['apellido_adicional']) > 30)) {
             $invalidProperties[] = "invalid value for 'apellido_adicional', the character length must be smaller than or equal to 30.";
@@ -184,11 +190,20 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($this->container['primer_nombre']) > 50)) {
             $invalidProperties[] = "invalid value for 'primer_nombre', the character length must be smaller than or equal to 50.";
         }
+        if ((mb_strlen($this->container['primer_nombre']) < 1)) {
+            $invalidProperties[] = "invalid value for 'primer_nombre', the character length must be bigger than or equal to 1.";
+        }
         if (!is_null($this->container['segundo_nombre']) && (mb_strlen($this->container['segundo_nombre']) > 50)) {
             $invalidProperties[] = "invalid value for 'segundo_nombre', the character length must be smaller than or equal to 50.";
         }
         if ($this->container['fecha_nacimiento'] === null) {
             $invalidProperties[] = "'fecha_nacimiento' can't be null";
+        }
+        if ((mb_strlen($this->container['fecha_nacimiento']) > 10)) {
+            $invalidProperties[] = "invalid value for 'fecha_nacimiento', the character length must be smaller than or equal to 10.";
+        }
+        if ((mb_strlen($this->container['fecha_nacimiento']) < 10)) {
+            $invalidProperties[] = "invalid value for 'fecha_nacimiento', the character length must be bigger than or equal to 10.";
         }
         if (!is_null($this->container['rfc']) && (mb_strlen($this->container['rfc']) > 13)) {
             $invalidProperties[] = "invalid value for 'rfc', the character length must be smaller than or equal to 13.";
@@ -198,6 +213,9 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         }
         if (!is_null($this->container['clave_elector_ife']) && (mb_strlen($this->container['clave_elector_ife']) > 20)) {
             $invalidProperties[] = "invalid value for 'clave_elector_ife', the character length must be smaller than or equal to 20.";
+        }
+        if ($this->container['domicilio'] === null) {
+            $invalidProperties[] = "'domicilio' can't be null";
         }
         return $invalidProperties;
     }
@@ -217,6 +235,9 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($apellido_paterno) > 30)) {
             throw new \InvalidArgumentException('invalid length for $apellido_paterno when calling PersonaPeticion., must be smaller than or equal to 30.');
         }
+        if ((mb_strlen($apellido_paterno) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $apellido_paterno when calling PersonaPeticion., must be bigger than or equal to 1.');
+        }
         $this->container['apellido_paterno'] = $apellido_paterno;
         return $this;
     }
@@ -230,6 +251,9 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
     {
         if ((mb_strlen($apellido_materno) > 30)) {
             throw new \InvalidArgumentException('invalid length for $apellido_materno when calling PersonaPeticion., must be smaller than or equal to 30.');
+        }
+        if ((mb_strlen($apellido_materno) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $apellido_materno when calling PersonaPeticion., must be bigger than or equal to 1.');
         }
         $this->container['apellido_materno'] = $apellido_materno;
         return $this;
@@ -259,6 +283,9 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($primer_nombre) > 50)) {
             throw new \InvalidArgumentException('invalid length for $primer_nombre when calling PersonaPeticion., must be smaller than or equal to 50.');
         }
+        if ((mb_strlen($primer_nombre) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $primer_nombre when calling PersonaPeticion., must be bigger than or equal to 1.');
+        }
         $this->container['primer_nombre'] = $primer_nombre;
         return $this;
     }
@@ -284,6 +311,12 @@ class PersonaPeticion implements ModelInterface, ArrayAccess
     
     public function setFechaNacimiento($fecha_nacimiento)
     {
+        if ((mb_strlen($fecha_nacimiento) > 10)) {
+            throw new \InvalidArgumentException('invalid length for $fecha_nacimiento when calling PersonaPeticion., must be smaller than or equal to 10.');
+        }
+        if ((mb_strlen($fecha_nacimiento) < 10)) {
+            throw new \InvalidArgumentException('invalid length for $fecha_nacimiento when calling PersonaPeticion., must be bigger than or equal to 10.');
+        }
         $this->container['fecha_nacimiento'] = $fecha_nacimiento;
         return $this;
     }

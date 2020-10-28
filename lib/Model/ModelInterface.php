@@ -7,9 +7,9 @@ interface ModelInterface
     
     public function getModelName();
     
-    public static function apihubTypes();
+    public static function VantageTypes();
     
-    public static function apihubFormats();
+    public static function VantageFormats();
     
     public static function attributeMap();
     

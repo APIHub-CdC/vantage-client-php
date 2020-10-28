@@ -9,61 +9,76 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'NoAportantesPeticion';
+    protected static $VantageModelName = 'NoAportantesPeticion';
     
-    protected static $apihubTypes = [
+    protected static $VantageTypes = [
         'folio' => 'string',
-        'fecha_proceso' => 'string',
+        'tipo_producto' => '\Vantage\MX\Client\Model\CatalogoProducto',
         'tipo_contrato' => '\Vantage\MX\Client\Model\CatalogoContrato',
         'frecuencia_pago' => '\Vantage\MX\Client\Model\CatalogoFrecuenciaPago',
         'dias_atraso' => 'int',
-        'persona' => '\Vantage\MX\Client\Model\PersonaPeticion'
+        'persona' => '\Vantage\MX\Client\Model\PersonaPeticion',
+        'numero_cuenta' => 'string',
+        'fecha_apertura' => 'string',
+        'saldo_actual' => 'float'
     ];
     
-    protected static $apihubFormats = [
+    protected static $VantageFormats = [
         'folio' => null,
-        'fecha_proceso' => null,
+        'tipo_producto' => null,
         'tipo_contrato' => null,
         'frecuencia_pago' => null,
         'dias_atraso' => 'int32',
-        'persona' => null
+        'persona' => null,
+        'numero_cuenta' => null,
+        'fecha_apertura' => 'yyyy-MM-dd',
+        'saldo_actual' => 'float'
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
         'folio' => 'folio',
-        'fecha_proceso' => 'fechaProceso',
+        'tipo_producto' => 'tipoProducto',
         'tipo_contrato' => 'tipoContrato',
         'frecuencia_pago' => 'frecuenciaPago',
         'dias_atraso' => 'diasAtraso',
-        'persona' => 'persona'
+        'persona' => 'persona',
+        'numero_cuenta' => 'numeroCuenta',
+        'fecha_apertura' => 'fechaApertura',
+        'saldo_actual' => 'saldoActual'
     ];
     
     protected static $setters = [
         'folio' => 'setFolio',
-        'fecha_proceso' => 'setFechaProceso',
+        'tipo_producto' => 'setTipoProducto',
         'tipo_contrato' => 'setTipoContrato',
         'frecuencia_pago' => 'setFrecuenciaPago',
         'dias_atraso' => 'setDiasAtraso',
-        'persona' => 'setPersona'
+        'persona' => 'setPersona',
+        'numero_cuenta' => 'setNumeroCuenta',
+        'fecha_apertura' => 'setFechaApertura',
+        'saldo_actual' => 'setSaldoActual'
     ];
     
     protected static $getters = [
         'folio' => 'getFolio',
-        'fecha_proceso' => 'getFechaProceso',
+        'tipo_producto' => 'getTipoProducto',
         'tipo_contrato' => 'getTipoContrato',
         'frecuencia_pago' => 'getFrecuenciaPago',
         'dias_atraso' => 'getDiasAtraso',
-        'persona' => 'getPersona'
+        'persona' => 'getPersona',
+        'numero_cuenta' => 'getNumeroCuenta',
+        'fecha_apertura' => 'getFechaApertura',
+        'saldo_actual' => 'getSaldoActual'
     ];
     
     public static function attributeMap()
@@ -83,7 +98,7 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     
@@ -93,11 +108,14 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['folio'] = isset($data['folio']) ? $data['folio'] : null;
-        $this->container['fecha_proceso'] = isset($data['fecha_proceso']) ? $data['fecha_proceso'] : null;
+        $this->container['tipo_producto'] = isset($data['tipo_producto']) ? $data['tipo_producto'] : null;
         $this->container['tipo_contrato'] = isset($data['tipo_contrato']) ? $data['tipo_contrato'] : null;
         $this->container['frecuencia_pago'] = isset($data['frecuencia_pago']) ? $data['frecuencia_pago'] : null;
         $this->container['dias_atraso'] = isset($data['dias_atraso']) ? $data['dias_atraso'] : null;
         $this->container['persona'] = isset($data['persona']) ? $data['persona'] : null;
+        $this->container['numero_cuenta'] = isset($data['numero_cuenta']) ? $data['numero_cuenta'] : null;
+        $this->container['fecha_apertura'] = isset($data['fecha_apertura']) ? $data['fecha_apertura'] : null;
+        $this->container['saldo_actual'] = isset($data['saldo_actual']) ? $data['saldo_actual'] : null;
     }
     
     public function listInvalidProperties()
@@ -109,11 +127,11 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($this->container['folio']) > 50)) {
             $invalidProperties[] = "invalid value for 'folio', the character length must be smaller than or equal to 50.";
         }
-        if ($this->container['fecha_proceso'] === null) {
-            $invalidProperties[] = "'fecha_proceso' can't be null";
+        if ((mb_strlen($this->container['folio']) < 1)) {
+            $invalidProperties[] = "invalid value for 'folio', the character length must be bigger than or equal to 1.";
         }
-        if ((mb_strlen($this->container['fecha_proceso']) > 10)) {
-            $invalidProperties[] = "invalid value for 'fecha_proceso', the character length must be smaller than or equal to 10.";
+        if ($this->container['tipo_producto'] === null) {
+            $invalidProperties[] = "'tipo_producto' can't be null";
         }
         if ($this->container['tipo_contrato'] === null) {
             $invalidProperties[] = "'tipo_contrato' can't be null";
@@ -126,6 +144,27 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
         }
         if ($this->container['persona'] === null) {
             $invalidProperties[] = "'persona' can't be null";
+        }
+        if ($this->container['numero_cuenta'] === null) {
+            $invalidProperties[] = "'numero_cuenta' can't be null";
+        }
+        if ((mb_strlen($this->container['numero_cuenta']) > 50)) {
+            $invalidProperties[] = "invalid value for 'numero_cuenta', the character length must be smaller than or equal to 50.";
+        }
+        if ((mb_strlen($this->container['numero_cuenta']) < 1)) {
+            $invalidProperties[] = "invalid value for 'numero_cuenta', the character length must be bigger than or equal to 1.";
+        }
+        if ($this->container['fecha_apertura'] === null) {
+            $invalidProperties[] = "'fecha_apertura' can't be null";
+        }
+        if ((mb_strlen($this->container['fecha_apertura']) > 10)) {
+            $invalidProperties[] = "invalid value for 'fecha_apertura', the character length must be smaller than or equal to 10.";
+        }
+        if ((mb_strlen($this->container['fecha_apertura']) < 10)) {
+            $invalidProperties[] = "invalid value for 'fecha_apertura', the character length must be bigger than or equal to 10.";
+        }
+        if ($this->container['saldo_actual'] === null) {
+            $invalidProperties[] = "'saldo_actual' can't be null";
         }
         return $invalidProperties;
     }
@@ -145,21 +184,21 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($folio) > 50)) {
             throw new \InvalidArgumentException('invalid length for $folio when calling NoAportantesPeticion., must be smaller than or equal to 50.');
         }
+        if ((mb_strlen($folio) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $folio when calling NoAportantesPeticion., must be bigger than or equal to 1.');
+        }
         $this->container['folio'] = $folio;
         return $this;
     }
     
-    public function getFechaProceso()
+    public function getTipoProducto()
     {
-        return $this->container['fecha_proceso'];
+        return $this->container['tipo_producto'];
     }
     
-    public function setFechaProceso($fecha_proceso)
+    public function setTipoProducto($tipo_producto)
     {
-        if ((mb_strlen($fecha_proceso) > 10)) {
-            throw new \InvalidArgumentException('invalid length for $fecha_proceso when calling NoAportantesPeticion., must be smaller than or equal to 10.');
-        }
-        $this->container['fecha_proceso'] = $fecha_proceso;
+        $this->container['tipo_producto'] = $tipo_producto;
         return $this;
     }
     
@@ -204,6 +243,51 @@ class NoAportantesPeticion implements ModelInterface, ArrayAccess
     public function setPersona($persona)
     {
         $this->container['persona'] = $persona;
+        return $this;
+    }
+    
+    public function getNumeroCuenta()
+    {
+        return $this->container['numero_cuenta'];
+    }
+    
+    public function setNumeroCuenta($numero_cuenta)
+    {
+        if ((mb_strlen($numero_cuenta) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $numero_cuenta when calling NoAportantesPeticion., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($numero_cuenta) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $numero_cuenta when calling NoAportantesPeticion., must be bigger than or equal to 1.');
+        }
+        $this->container['numero_cuenta'] = $numero_cuenta;
+        return $this;
+    }
+    
+    public function getFechaApertura()
+    {
+        return $this->container['fecha_apertura'];
+    }
+    
+    public function setFechaApertura($fecha_apertura)
+    {
+        if ((mb_strlen($fecha_apertura) > 10)) {
+            throw new \InvalidArgumentException('invalid length for $fecha_apertura when calling NoAportantesPeticion., must be smaller than or equal to 10.');
+        }
+        if ((mb_strlen($fecha_apertura) < 10)) {
+            throw new \InvalidArgumentException('invalid length for $fecha_apertura when calling NoAportantesPeticion., must be bigger than or equal to 10.');
+        }
+        $this->container['fecha_apertura'] = $fecha_apertura;
+        return $this;
+    }
+    
+    public function getSaldoActual()
+    {
+        return $this->container['saldo_actual'];
+    }
+    
+    public function setSaldoActual($saldo_actual)
+    {
+        $this->container['saldo_actual'] = $saldo_actual;
         return $this;
     }
     

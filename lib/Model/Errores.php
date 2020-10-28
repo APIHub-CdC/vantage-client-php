@@ -9,40 +9,35 @@ class Errores implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'Errores';
+    protected static $VantageModelName = 'Errores';
     
-    protected static $apihubTypes = [
-        'folio' => 'string',
+    protected static $VantageTypes = [
         'errores' => '\Vantage\MX\Client\Model\Error[]'
     ];
     
-    protected static $apihubFormats = [
-        'folio' => null,
+    protected static $VantageFormats = [
         'errores' => null
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
-        'folio' => 'folio',
         'errores' => 'errores'
     ];
     
     protected static $setters = [
-        'folio' => 'setFolio',
         'errores' => 'setErrores'
     ];
     
     protected static $getters = [
-        'folio' => 'getFolio',
         'errores' => 'getErrores'
     ];
     
@@ -63,7 +58,7 @@ class Errores implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     
@@ -72,7 +67,6 @@ class Errores implements ModelInterface, ArrayAccess
     
     public function __construct(array $data = null)
     {
-        $this->container['folio'] = isset($data['folio']) ? $data['folio'] : null;
         $this->container['errores'] = isset($data['errores']) ? $data['errores'] : null;
     }
     
@@ -85,17 +79,6 @@ class Errores implements ModelInterface, ArrayAccess
     public function valid()
     {
         return count($this->listInvalidProperties()) === 0;
-    }
-    
-    public function getFolio()
-    {
-        return $this->container['folio'];
-    }
-    
-    public function setFolio($folio)
-    {
-        $this->container['folio'] = $folio;
-        return $this;
     }
     
     public function getErrores()
