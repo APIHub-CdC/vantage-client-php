@@ -9,51 +9,51 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
     
-    protected static $apihubModelName = 'AportantesPeticion';
+    protected static $VantageModelName = 'AportantesPeticion';
     
-    protected static $apihubTypes = [
+    protected static $VantageTypes = [
         'folio' => 'string',
-        'fecha_proceso' => 'string',
         'numero_cuenta' => 'string',
-        'dias_atraso' => 'int'
+        'dias_atraso' => 'int',
+        'tipo_contrato' => '\Vantage\MX\Client\Model\CatalogoContrato'
     ];
     
-    protected static $apihubFormats = [
+    protected static $VantageFormats = [
         'folio' => null,
-        'fecha_proceso' => null,
         'numero_cuenta' => null,
-        'dias_atraso' => 'int32'
+        'dias_atraso' => 'int32',
+        'tipo_contrato' => null
     ];
     
-    public static function apihubTypes()
+    public static function VantageTypes()
     {
-        return self::$apihubTypes;
+        return self::$VantageTypes;
     }
     
-    public static function apihubFormats()
+    public static function VantageFormats()
     {
-        return self::$apihubFormats;
+        return self::$VantageFormats;
     }
     
     protected static $attributeMap = [
         'folio' => 'folio',
-        'fecha_proceso' => 'fechaProceso',
         'numero_cuenta' => 'numeroCuenta',
-        'dias_atraso' => 'diasAtraso'
+        'dias_atraso' => 'diasAtraso',
+        'tipo_contrato' => 'tipoContrato'
     ];
     
     protected static $setters = [
         'folio' => 'setFolio',
-        'fecha_proceso' => 'setFechaProceso',
         'numero_cuenta' => 'setNumeroCuenta',
-        'dias_atraso' => 'setDiasAtraso'
+        'dias_atraso' => 'setDiasAtraso',
+        'tipo_contrato' => 'setTipoContrato'
     ];
     
     protected static $getters = [
         'folio' => 'getFolio',
-        'fecha_proceso' => 'getFechaProceso',
         'numero_cuenta' => 'getNumeroCuenta',
-        'dias_atraso' => 'getDiasAtraso'
+        'dias_atraso' => 'getDiasAtraso',
+        'tipo_contrato' => 'getTipoContrato'
     ];
     
     public static function attributeMap()
@@ -73,7 +73,7 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
     
     public function getModelName()
     {
-        return self::$apihubModelName;
+        return self::$VantageModelName;
     }
     
     
@@ -83,9 +83,9 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['folio'] = isset($data['folio']) ? $data['folio'] : null;
-        $this->container['fecha_proceso'] = isset($data['fecha_proceso']) ? $data['fecha_proceso'] : null;
         $this->container['numero_cuenta'] = isset($data['numero_cuenta']) ? $data['numero_cuenta'] : null;
         $this->container['dias_atraso'] = isset($data['dias_atraso']) ? $data['dias_atraso'] : null;
+        $this->container['tipo_contrato'] = isset($data['tipo_contrato']) ? $data['tipo_contrato'] : null;
     }
     
     public function listInvalidProperties()
@@ -97,17 +97,17 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($this->container['folio']) > 50)) {
             $invalidProperties[] = "invalid value for 'folio', the character length must be smaller than or equal to 50.";
         }
-        if ($this->container['fecha_proceso'] === null) {
-            $invalidProperties[] = "'fecha_proceso' can't be null";
-        }
-        if ((mb_strlen($this->container['fecha_proceso']) > 10)) {
-            $invalidProperties[] = "invalid value for 'fecha_proceso', the character length must be smaller than or equal to 10.";
+        if ((mb_strlen($this->container['folio']) < 1)) {
+            $invalidProperties[] = "invalid value for 'folio', the character length must be bigger than or equal to 1.";
         }
         if ($this->container['numero_cuenta'] === null) {
             $invalidProperties[] = "'numero_cuenta' can't be null";
         }
         if ((mb_strlen($this->container['numero_cuenta']) > 50)) {
             $invalidProperties[] = "invalid value for 'numero_cuenta', the character length must be smaller than or equal to 50.";
+        }
+        if ((mb_strlen($this->container['numero_cuenta']) < 1)) {
+            $invalidProperties[] = "invalid value for 'numero_cuenta', the character length must be bigger than or equal to 1.";
         }
         if ($this->container['dias_atraso'] === null) {
             $invalidProperties[] = "'dias_atraso' can't be null";
@@ -130,21 +130,10 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($folio) > 50)) {
             throw new \InvalidArgumentException('invalid length for $folio when calling AportantesPeticion., must be smaller than or equal to 50.');
         }
-        $this->container['folio'] = $folio;
-        return $this;
-    }
-    
-    public function getFechaProceso()
-    {
-        return $this->container['fecha_proceso'];
-    }
-    
-    public function setFechaProceso($fecha_proceso)
-    {
-        if ((mb_strlen($fecha_proceso) > 10)) {
-            throw new \InvalidArgumentException('invalid length for $fecha_proceso when calling AportantesPeticion., must be smaller than or equal to 10.');
+        if ((mb_strlen($folio) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $folio when calling AportantesPeticion., must be bigger than or equal to 1.');
         }
-        $this->container['fecha_proceso'] = $fecha_proceso;
+        $this->container['folio'] = $folio;
         return $this;
     }
     
@@ -158,6 +147,9 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
         if ((mb_strlen($numero_cuenta) > 50)) {
             throw new \InvalidArgumentException('invalid length for $numero_cuenta when calling AportantesPeticion., must be smaller than or equal to 50.');
         }
+        if ((mb_strlen($numero_cuenta) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $numero_cuenta when calling AportantesPeticion., must be bigger than or equal to 1.');
+        }
         $this->container['numero_cuenta'] = $numero_cuenta;
         return $this;
     }
@@ -170,6 +162,17 @@ class AportantesPeticion implements ModelInterface, ArrayAccess
     public function setDiasAtraso($dias_atraso)
     {
         $this->container['dias_atraso'] = $dias_atraso;
+        return $this;
+    }
+    
+    public function getTipoContrato()
+    {
+        return $this->container['tipo_contrato'];
+    }
+    
+    public function setTipoContrato($tipo_contrato)
+    {
+        $this->container['tipo_contrato'] = $tipo_contrato;
         return $this;
     }
     

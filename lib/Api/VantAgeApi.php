@@ -21,6 +21,8 @@ class VantAgeApi
     protected $config;
     
     protected $headerSelector;
+
+    public $statusCode;
     
     public function __construct(
         ClientInterface $client = null,
@@ -36,6 +38,11 @@ class VantAgeApi
     {
         return $this->config;
     }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }     
     
     public function getVantageAportantes($x_api_key, $username, $password, $body)
     {
@@ -59,15 +66,15 @@ class VantAgeApi
                     $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
-            $statusCode = $response->getStatusCode();
-            if ($statusCode < 200 || $statusCode > 299) {
+            $this->statusCode = $response->getStatusCode();
+            if ($this->statusCode < 200 || $this->statusCode > 299) {
                 throw new ApiException(
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
-                        $statusCode,
+                        $this->statusCode,
                         $request->getUri()
                     ),
-                    $statusCode,
+                    $this->statusCode,
                     $response->getHeaders(),
                     $response->getBody()
                 );
@@ -137,6 +144,14 @@ class VantAgeApi
                     $e->setResponseObject($data);
                     break;
                 case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Vantage\MX\Client\Model\Errores',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Vantage\MX\Client\Model\Errores',
@@ -227,7 +242,6 @@ class VantAgeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-        
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
         }
@@ -318,15 +332,15 @@ class VantAgeApi
                     $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
                 );
             }
-            $statusCode = $response->getStatusCode();
-            if ($statusCode < 200 || $statusCode > 299) {
+            $this->statusCode = $response->getStatusCode();
+            if ($this->statusCode < 200 || $this->statusCode > 299) {
                 throw new ApiException(
                     sprintf(
                         '[%d] Error connecting to the API (%s)',
-                        $statusCode,
+                        $this->statusCode,
                         $request->getUri()
                     ),
-                    $statusCode,
+                    $this->statusCode,
                     $response->getHeaders(),
                     $response->getBody()
                 );
@@ -396,6 +410,14 @@ class VantAgeApi
                     $e->setResponseObject($data);
                     break;
                 case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Vantage\MX\Client\Model\Errores',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Vantage\MX\Client\Model\Errores',
@@ -486,7 +508,6 @@ class VantAgeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
         }

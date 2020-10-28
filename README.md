@@ -1,4 +1,4 @@
-# VANT/AGE-client-php
+# vantage-client-php
 
 Es un modelo que segmenta a los clientes morosos en 6 calificaciones, de acuerdo al avance esperado de mora en los siguientes 30 días. Reduce costos de gestión y administración de cartera morosa al segmentar a la población.
 
@@ -101,7 +101,7 @@ openssl pkcs12 -name ${ALIAS} \
 * Esto es parte del setUp() de las pruebas unitarias.
 */
 $password = getenv('KEY_PASSWORD');
-$this->signer = new \APIHub\Client\Interceptor\KeyHandler(
+$this->signer = new KeyHandler(
     "/example/route/keypair.p12",
     "/example/route/cdc_cert.pem",
     $password
@@ -140,57 +140,85 @@ public function setUp()
   $config = new Configuration();
   $config->setHost($this->url);
   
-  $this->apiInstance = new VantAgeApi($client, $config);
+  $this->apiInstance = new Instance($client, $config);
   $this->x_api_key = "your_api_key";
   $this->username = "your_username";
   $this->password = "your_password";
 }
 ```
+
+> **NOTA:** Los datos de la siguiente petición son solo representativos.
+
 ```php
 
 <?php
-/**
-* Este es el método que se será ejecutado en la prueba ubicado en path/to/repository/test/Api/SegmentadorApiTest.php
-*/
 public function testGetVantageAportantes(){
-  try {
-    $request = new AportantesPeticion();
-    $request->setFolio("123456");
-    $request->setFechaProceso("yyyy-MM-dd");
-    $request->setNumeroCuenta("00000000");
-    $request->setDiasAtraso(10);
-    $result = $this->apiInstance->getVantageAportantes(
-        $this->x_api_key, $this->username, $this->password, $request);
-    print_r($result);
-  } catch (VantageException | Exception $e) {
-      echo 'Exception when calling testGetVantageAportantes->getVantageAportantes: ', $e->getMessage(), PHP_EOL;
-  }
+    try {
+        $request = new AportantesPeticion();
+        $tipoContrato = new CatalogoContrato();
+
+        $request->setFolio("0000001");
+        $request->setTipoContrato($tipoContrato::TC);
+        $request->setNumeroCuenta("4772133042201399");
+        $request->setDiasAtraso(1);
+        $result = $this->apiInstance->getVantageAportantes($this->x_api_key, $this->username, $this->password, $request);
+
+        if($this->apiInstance->getStatusCode() == 200){
+            print_r($result);
+        }
+    } catch (ApiException $e) {
+
+        if($e->getCode() !== 204){
+            echo 'Exception when calling ApiTest->testGetVantageAportantes: ', $e->getMessage(), PHP_EOL;
+        }
+    }
+    $this->assertTrue($this->apiInstance->getStatusCode() == 200);        
 }
 
 public function testGetVantageNoAportantes(){
-  try {
-    $tipoContrato = new CatalogoContrato();
-    $catalogoPago = new CatalogoFrecuenciaPago();
-    $persona = new PersonaPeticion();
-    $request = new NoAportantesPeticion();
+    try {
+        $tipoContrato = new CatalogoContrato();
+        $catalogoPago = new CatalogoFrecuenciaPago();
+        $persona = new PersonaPeticion();
+        $domicilio = new DomicilioPeticion();
+        $catalogoEstados = new CatalogoEstados();
+        $request = new NoAportantesPeticion();
+        
+        $domicilio->setDireccion("INSURGENTES SUR 1007");
+        $domicilio->setColoniaPoblacion("INSURGENTES");
+        $domicilio->setDelegacionMunicipio("BENITO JUAREZ");
+        $domicilio->setCiudad("CIUDAD DE MÉXICO");
+        $domicilio->setEstado($catalogoEstados::DF);
+        $domicilio->setCp("11230");
 
-    $persona->setPrimerNombre("NOMBRE");
-    $persona->setApellidoPaterno("PATERNO");
-    $persona->setApellidoMaterno("MATERNO");
-    $persona->setFechaNacimiento("1986-06-27");
-    $request->setFolio("123456");
-    $request->setFechaProceso("yyyy-MM-dd");
-    $request->setTipoContrato($tipoContrato::AA);
-    $request->setFrecuenciaPago($catalogoPago::N);
-    $request->setDiasAtraso(10);
-    $request->setPersona($persona);
+        $persona->setPrimerNombre("JUAN");
+        $persona->setApellidoPaterno("PRUEBA");
+        $persona->setApellidoMaterno("SIETE");
+        $persona->setFechaNacimiento("1980-01-07");
+        $persona->setDomicilio($domicilio);
 
-    $result = $this->apiInstance->getVantageAportantes(
-        $this->x_api_key, $this->username, $this->password, $request);
-    print_r($result);
-  } catch (VantageException | Exception $e) {
-      echo 'Exception when calling testGetVantageNoAportantes->getVantageAportantes: ', $e->getMessage(), PHP_EOL;
-  }
+        $request->setFolio("0000002");
+        $request->setTipoProducto("O");
+        $request->setTipoContrato($tipoContrato::TC);
+        $request->setFrecuenciaPago($catalogoPago::M);
+        $request->setDiasAtraso(1);
+        $request->setNumeroCuenta("123456");
+        $request->setFechaApertura("1990-10-19");
+        $request->setSaldoActual(15301);
+        $request->setPersona($persona);
+
+        $result = $this->apiInstance->getVantageNoAportantes($this->x_api_key, $this->username, $this->password, $request);
+
+        if($this->apiInstance->getStatusCode() == 200){
+            print_r($result);
+        }
+    } catch (ApiException $e) {
+
+        if($e->getCode() !== 204){
+            echo 'Exception when calling ApiTest->testGetVantageNoAportantes: ', $e->getMessage(), PHP_EOL;
+        }
+    }
+    $this->assertTrue($this->apiInstance->getStatusCode() == 200);         
 }
 ?>
 ```
